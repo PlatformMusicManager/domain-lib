@@ -3,25 +3,25 @@
 #[derive(Debug, sqlx::Type)]
 #[sqlx(type_name = "album_input_deezer")]
 pub struct AlbumInputDeezer {
-    id: i64,
-    title: String,
-    img: Option<String>,
+    pub id: i64,
+    pub title: String,
+    pub img: Option<String>,
 }
 
 #[derive(Debug, sqlx::Type)]
 #[sqlx(type_name = "track_input_deezer")]
 pub struct TrackInputDeezer {
-    id: i64,
-    title: String,
-    duration: i32,
+    pub id: i64,
+    pub title: String,
+    pub duration: i32,
 }
 
 #[derive(Debug, sqlx::Type)]
 #[sqlx(type_name = "author_input_deezer")]
 pub struct AuthorInputDeezer {
-    id: i64,
-    title: String,
-    img: Option<String>,
+    pub id: i64,
+    pub title: String,
+    pub img: Option<String>,
 }
 
 // Entity's

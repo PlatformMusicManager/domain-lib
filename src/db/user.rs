@@ -36,7 +36,7 @@ pub struct TrackInUserPlaylist {
 #[derive(Debug, sqlx::Type)]
 #[sqlx(type_name = "track_platform")]
 #[sqlx(rename_all = "lowercase")]
-enum TrackPlatfrom {
+pub enum TrackPlatfrom {
     Deezer,
     Soundloud,
 }
