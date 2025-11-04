@@ -2,6 +2,13 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+pub enum IsUserExistsRes {
+    NotExists,
+    UsernameExists,
+    EmailExists,
+    EmailAndUsernameExists,
+}
+
 #[derive(Debug, sqlx::FromRow)]
 pub struct UserTable {
     pub id: i64,
@@ -51,5 +58,6 @@ pub struct PlaylistInUser {
 pub struct UserWithPlaylists {
     pub id: i64,
     pub email: String,
+    pub username: String,
     pub playlists: Vec<PlaylistInUser>,
 }
