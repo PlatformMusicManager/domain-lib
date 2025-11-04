@@ -4,33 +4,33 @@ use uuid::Uuid;
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct UserTable {
-    id: i64,
-    username: String,
-    email: String,
-    password_hash: String,
+    pub id: i64,
+    pub username: String,
+    pub email: String,
+    pub password_hash: String,
 }
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct SessionTable {
-    id: Uuid,
-    user_id: i64,
-    expires_at: DateTime<Utc>,
+    pub id: Uuid,
+    pub user_id: i64,
+    pub expires_at: DateTime<Utc>,
 }
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct UserPlaylist {
-    id: i64,
-    title: String,
-    owner_id: i64,
+    pub id: i64,
+    pub title: String,
+    pub owner_id: i64,
 }
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct TrackInUserPlaylist {
-    id: i64,
-    title: String,
-    track_id: i64,
-    platform_id: TrackPlatfrom,
-    position: i32,
+    pub id: i64,
+    pub title: String,
+    pub track_id: i64,
+    pub platform_id: TrackPlatfrom,
+    pub position: i32,
 }
 
 #[derive(Debug, sqlx::Type)]
@@ -43,13 +43,13 @@ enum TrackPlatfrom {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct PlaylistInUser {
-    id: i64,
-    title: String,
+    pub id: i64,
+    pub title: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UserWithPlaylists {
-    id: i64,
-    email: String,
-    playlists: Vec<PlaylistInUser>,
+    pub id: i64,
+    pub email: String,
+    pub playlists: Vec<PlaylistInUser>,
 }

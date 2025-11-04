@@ -28,24 +28,24 @@ pub struct AuthorInputDeezer {
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct TrackTableDeezer {
-    id: i64,
-    title: String,
-    duration: i32,
-    img: Option<String>,
-    album_id: i64,
+    pub id: i64,
+    pub title: String,
+    pub duration: i32,
+    pub img: Option<String>,
+    pub album_id: i64,
 }
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct AlbumTableDeezer {
-    id: i64,
-    title: String,
-    img: Option<String>,
-    author_id: i64,
+    pub id: i64,
+    pub title: String,
+    pub img: Option<String>,
+    pub author_id: i64,
 }
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct AuthorTableDeezer {
-    id: i64,
-    title: String,
-    img: Option<String>,
+    pub id: i64,
+    pub title: String,
+    pub img: Option<String>,
 }
