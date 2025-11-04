@@ -1,1 +1,1 @@
-mod await_verification;
+pub mod await_verification;
