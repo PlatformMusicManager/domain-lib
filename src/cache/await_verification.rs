@@ -18,7 +18,7 @@ impl UserAwaitVerification {
             ("username", self.username),
             ("password_hash", self.password_hash),
             ("code", self.code),
-            ("created_at", self.created_at.to_string()),
+            ("created_at", self.created_at.to_rfc3339()),
             ("attempts", self.attempts.to_string()),
         ]
     }
