@@ -9,10 +9,11 @@ pub struct UserAwaitVerification {
     pub code: String,
     pub created_at: DateTime<Utc>,
     pub attempts: u8,
+    pub code_resends: u8
 }
 
 impl UserAwaitVerification {
-    pub fn to_hash_array(self) -> [(impl ToRedisArgs, impl ToRedisArgs); 6] {
+    pub fn to_hash_array(self) -> [(impl ToRedisArgs, impl ToRedisArgs); 7] {
         [
             ("email", self.email),
             ("username", self.username),
@@ -20,6 +21,7 @@ impl UserAwaitVerification {
             ("code", self.code),
             ("created_at", self.created_at.to_rfc3339()),
             ("attempts", self.attempts.to_string()),
+            ("code_resends", self.code_resends.to_string()),
         ]
     }
 }
