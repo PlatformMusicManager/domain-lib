@@ -4,6 +4,7 @@ use axum::response::{IntoResponse, Response};
 use serde_json::json;
 use crate::create_json_error_str;
 
+#[derive(Debug)]
 pub enum SqlxErrorWrapper {
     SqlxError(sqlx::Error),
 }
