@@ -2,6 +2,7 @@ use axum::http::StatusCode;
 use axum::Json;
 use axum::response::{IntoResponse, Response};
 use serde_json::json;
+use crate::create_json_error_str;
 
 pub enum SqlxErrorWrapper {
     SqlxError(sqlx::Error),
@@ -21,23 +22,20 @@ impl IntoResponse for SqlxErrorWrapper {
                 // Now we can match on the specific sqlx::Error variants
                 match sqlx_error {
                     sqlx::Error::RowNotFound => {
-                        (StatusCode::NOT_FOUND, "The requested resource was not found.".to_string())
+                        (StatusCode::NOT_FOUND, create_json_error_str!("The requested resource was not found."))
                     }
                     // You can add more specific sqlx error matches here
                     sqlx::Error::Database(err) if err.is_unique_violation() => {
-                        (StatusCode::CONFLICT, "A record with this value already exists.".to_string())
+                        (StatusCode::CONFLICT, create_json_error_str!("A record with this value already exists."))
                     }
                     _ => {
                         // For any other database error, return a generic 500
-                        (StatusCode::INTERNAL_SERVER_ERROR, "An internal database error occurred.".to_string())
+                        (StatusCode::INTERNAL_SERVER_ERROR, create_json_error_str!("An internal database error occurred."))
                     }
                 }
             }
         };
 
-        // Build a JSON response
-        let body = Json(json!({ "error": error_message }));
-
-        (status, body).into_response()
+        (status, error_message).into_response()
     }
 }
