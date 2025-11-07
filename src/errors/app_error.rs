@@ -1,15 +1,16 @@
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use redis::RedisError;
-use thiserror::Error;
 use crate::create_json_error_str;
 use crate::errors::auth::jwt_error::JwtError;
+use crate::errors::auth::problematic_fields_error::ProblematicFieldsError;
 use crate::errors::cache::session_errors::SessionError;
 use crate::errors::cache::user_errors::UserError;
 use crate::errors::cache::verify_user_errors::UserVerifyError;
 use crate::errors::db::session::{SessionCreationError, SessionUpdateError};
 use crate::errors::db::sqlx_error::SqlxErrorWrapper;
 use crate::errors::db::user::UserCreationError;
+use crate::errors::email::MailerError;
 
 #[derive(Debug)]
 pub enum AppError {
@@ -27,8 +28,15 @@ pub enum AppError {
     // Jwt
     JwtError(JwtError),
     RedisError(RedisError),
-}
 
+    // auth
+    ProblematicFieldsError(ProblematicFieldsError),
+    FailedToParse,
+    
+    // mailer
+    MailerError(MailerError),
+    
+}
 impl From <RedisError> for AppError {
     fn from (err: RedisError) -> Self {
         AppError::RedisError(err)
@@ -65,7 +73,23 @@ impl From<JwtError> for AppError {
     }
 }
 
+impl From<ProblematicFieldsError> for AppError {
+    fn from(err: ProblematicFieldsError) -> Self {
+        AppError::ProblematicFieldsError(err)
+    }
+}
 
+impl From<MailerError> for AppError {
+        fn from(err: MailerError) -> Self {
+            AppError::MailerError(err)
+        }
+}
+
+impl From<password_hash::errors::Error> for AppError {
+    fn from(err: password_hash::errors::Error) -> Self {
+        AppError::FailedToParse
+    }
+}
 
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
@@ -105,7 +129,15 @@ impl IntoResponse for AppError {
             AppError::RedisError(redis_error) => {
                 (StatusCode::INTERNAL_SERVER_ERROR, create_json_error_str!("INTERNAL_SERVER_ERROR")).into_response()
             }
-
+            AppError::ProblematicFieldsError(problematic_fields_error) => {
+                problematic_fields_error.into_response()
+            }
+            AppError::MailerError(mailer_error) => {
+                mailer_error.into_response()
+            }
+            AppError::FailedToParse => {
+                (StatusCode::INTERNAL_SERVER_ERROR, create_json_error_str!("INTERNAL_SERVER_ERROR")).into_response()
+            }
         }
     }
 }
