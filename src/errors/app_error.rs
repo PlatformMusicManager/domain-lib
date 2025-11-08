@@ -11,6 +11,7 @@ use crate::errors::db::session::{SessionCreationError, SessionUpdateError};
 use crate::errors::db::sqlx_error::SqlxErrorWrapper;
 use crate::errors::db::user::UserCreationError;
 use crate::errors::email::MailerError;
+use password_hash::errors::Error as PasswordHashError;
 
 #[derive(Debug)]
 pub enum AppError {
@@ -85,8 +86,8 @@ impl From<MailerError> for AppError {
         }
 }
 
-impl From<password_hash::errors::Error> for AppError {
-    fn from(_err: password_hash::errors::Error) -> Self {
+impl From<PasswordHashError> for AppError {
+    fn from(_err: PasswordHashError) -> Self {
         AppError::FailedToParse
     }
 }
