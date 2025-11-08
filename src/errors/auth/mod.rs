@@ -1,3 +1,3 @@
 pub mod jwt_error;
 pub mod problematic_fields_error;
-mod coockie_error;
+pub mod cookie_error;

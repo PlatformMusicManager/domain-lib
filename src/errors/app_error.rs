@@ -4,7 +4,7 @@ use redis::RedisError;
 use thiserror::Error;
 
 use crate::{create_json_error_str, define_app_error};
-
+use crate::errors::auth::cookie_error::CookieErrors;
 use crate::errors::auth::jwt_error::JwtError;
 use crate::errors::auth::problematic_fields_error::ProblematicFieldsError;
 use crate::errors::cache::session_errors::SessionError;
@@ -53,6 +53,10 @@ define_app_error! {
         // mailer
         #[error(transparent)]
         MailerError(#[from] MailerError),
+
+        // Cookie
+        #[error(transparent)]
+        CookieError(#[from] CookieErrors)
     }
 
     // --- Part 2: Response Logic ---
@@ -67,7 +71,8 @@ define_app_error! {
             UserVerifyError,
             JwtError,
             ProblematicFieldsError,
-            MailerError
+            MailerError,
+            CookieError
         ],
         custom: {
             AppError::RedisError(_) => {
