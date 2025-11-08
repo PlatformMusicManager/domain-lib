@@ -1,9 +1,11 @@
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
+use thiserror::Error;
 use crate::create_json_error_str;
 
-#[derive(Debug)]
+#[derive(Debug, Error)]
 pub enum SqlxErrorWrapper {
+    #[error("Database error: {0}")]
     SqlxError(sqlx::Error),
 }
 
