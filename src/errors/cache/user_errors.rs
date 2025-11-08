@@ -1,6 +1,5 @@
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
-use serde_json::error::Error;
 use thiserror::Error;
 use crate::create_json_error_str;
 

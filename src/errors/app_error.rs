@@ -86,7 +86,7 @@ impl From<MailerError> for AppError {
 }
 
 impl From<password_hash::errors::Error> for AppError {
-    fn from(err: password_hash::errors::Error) -> Self {
+    fn from(_err: password_hash::errors::Error) -> Self {
         AppError::FailedToParse
     }
 }
@@ -126,7 +126,7 @@ impl IntoResponse for AppError {
             AppError::SessionError(session_error) => {
                 session_error.into_response()
             }
-            AppError::RedisError(redis_error) => {
+            AppError::RedisError(_) => {
                 (StatusCode::INTERNAL_SERVER_ERROR, create_json_error_str!("INTERNAL_SERVER_ERROR")).into_response()
             }
             AppError::ProblematicFieldsError(problematic_fields_error) => {
