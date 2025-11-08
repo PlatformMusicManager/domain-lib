@@ -4,7 +4,7 @@ use thiserror::Error;
 use crate::create_json_error_str;
 
 #[derive(Error, Debug)]
-pub enum CookiesError {
+pub enum CookieErrors {
     #[error("Verification token not found")]
     VerificationTokenNotFound,
     #[error("Access token not found")]
@@ -14,22 +14,22 @@ pub enum CookiesError {
 }
 
 
-impl IntoResponse for CookiesError {
+impl IntoResponse for CookieErrors {
     fn into_response(self) -> Response {
         let res = match self {
-            CookiesError::VerificationTokenNotFound => {
+            CookieErrors::VerificationTokenNotFound => {
                 (
                     StatusCode::NOT_FOUND,
                     create_json_error_str!("Verification token not found, possible verification time ended")
                 )
             },
-            CookiesError::AccessTokenNotFound => {
+            CookieErrors::AccessTokenNotFound => {
                 (
                     StatusCode::UNAUTHORIZED,
                     create_json_error_str!("Access token possibly expired")
                 )
             }
-            CookiesError::RefreshTokenNotFound => {
+            CookieErrors::RefreshTokenNotFound => {
                 (
                     StatusCode::UNAUTHORIZED,
                     create_json_error_str!("Refresh token not found, try to re-login")
