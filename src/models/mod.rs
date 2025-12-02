@@ -1,3 +1,3 @@
 pub mod cache;
 pub mod db;
-mod music_api;
+pub mod music_api;
