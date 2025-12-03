@@ -14,7 +14,7 @@ use crate::errors::db::session::{SessionCreationError, SessionUpdateError};
 use crate::errors::db::sqlx_error::SqlxErrorWrapper;
 use crate::errors::db::user::UserCreationError;
 use crate::errors::email::MailerError;
-
+use crate::errors::music_services::deezer_api_error::DeezerApiError;
 
 define_app_error! {
     // --- Part 1: Enum Definition ---
@@ -56,7 +56,10 @@ define_app_error! {
 
         // Cookie
         #[error(transparent)]
-        CookieError(#[from] CookieErrors)
+        CookieError(#[from] CookieErrors),
+        
+        #[error(transparent)]
+        DeezerApiError(#[from] DeezerApiError),
     }
 
     // --- Part 2: Response Logic ---
@@ -72,7 +75,8 @@ define_app_error! {
             JwtError,
             ProblematicFieldsError,
             MailerError,
-            CookieError
+            CookieError,
+            DeezerApiError
         ],
         custom: {
             AppError::RedisError(_) => {

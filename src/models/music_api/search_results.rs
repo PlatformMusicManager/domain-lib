@@ -1,15 +1,15 @@
 use serde::{Deserialize, Serialize};
-use crate::models::music_api::album::Album;
-use crate::models::music_api::artist::Artist;
-use crate::models::music_api::playlist::Playlist;
-use crate::models::music_api::track::Track;
-use crate::models::music_api::user::User;
+use crate::models::music_api::album::ApiAlbum;
+use crate::models::music_api::artist::ApiArtist;
+use crate::models::music_api::playlist::ApiPlaylist;
+use crate::models::music_api::track::ApiTrack;
+use crate::models::music_api::user::ApiUser;
 
-#[derive(Deserialize, Serialize)]
-pub struct SearchPage {
-    pub artists: Vec<Artist>,
-    pub albums: Vec<Album>,
-    pub tracks: Vec<Track>,
-    pub playlists: Vec<Playlist>,
-    pub users: Vec<User>,
+#[derive(Serialize)]
+pub struct ApiSearchPage {
+    pub artists: Vec<ApiArtist>,
+    pub albums: Vec<ApiAlbum>,
+    pub tracks: Vec<ApiTrack>,
+    pub playlists: Vec<ApiPlaylist>,
+    pub users: Vec<ApiUser>,
 }

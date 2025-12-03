@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
-pub enum Services {
+#[derive(Serialize)]
+pub enum ApiServices {
     Deezer,
     Soundcloud
 }

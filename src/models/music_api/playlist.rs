@@ -1,14 +1,14 @@
 use serde::{Deserialize, Serialize};
-use crate::models::music_api::track::Track;
+use crate::models::music_api::track::ApiTrack;
 
-#[derive(Serialize, Deserialize)]
-pub struct Playlist {
+#[derive(Serialize)]
+pub struct ApiPlaylist {
     pub id: String,
     pub title: String,
     pub parent_user_id: String,
     pub parent_username: String,
     pub parent_picture: String,
     pub picture: String,
-    pub tracks: Vec<Track>,
+    pub tracks: Vec<ApiTrack>,
     pub size: u32,
 }

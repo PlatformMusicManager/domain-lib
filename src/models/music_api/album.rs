@@ -1,12 +1,22 @@
 use serde::{Deserialize, Serialize};
-use crate::models::music_api::artist::Artist;
-use crate::models::music_api::track::Track;
+use crate::models::music_api::artist::ApiArtist;
+use crate::models::music_api::services::ApiServices;
 
-#[derive(Deserialize, Serialize)]
-pub struct Album {
+#[derive(Serialize)]
+pub struct ApiAlbum {
     pub id: String,
-    pub img: String,
+    pub img: Option<String>,
     pub title: String,
-    pub artists: Vec<Artist>,
-    pub tracks: Vec<Track>,
+    pub service: ApiServices,
+    pub artists: Vec<ApiArtist>,
+    pub tracks: Vec<ApiTrackInAlbum>,
+}
+
+#[derive(Serialize)]
+pub struct ApiTrackInAlbum {
+    pub id: String,
+    pub title: String,
+    pub duration: i32,
+    pub track_url: Option<String>,
+    pub track_token: Option<String>,
 }

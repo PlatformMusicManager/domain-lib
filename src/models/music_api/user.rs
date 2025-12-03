@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
+use serde::{Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct User {
+#[derive(Serialize)]
+pub struct ApiUser {
     pub id: String,
     pub img: String,
     pub username: String,
