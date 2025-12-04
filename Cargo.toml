@@ -17,3 +17,4 @@ password-hash = "0.5.0"
 reqwest = "0.12.24"
 url = "2.5.7" # bcks argon2 v."0.5.3" rely on this lib
 serde_json = "1.0.145"
+tokio = "1.48.0"

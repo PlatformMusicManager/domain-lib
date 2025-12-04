@@ -7,8 +7,8 @@ pub struct ApiPlaylist {
     pub title: String,
     pub parent_user_id: String,
     pub parent_username: String,
-    pub parent_picture: String,
-    pub picture: String,
+    pub parent_picture: Option<String>,
+    pub picture: Option<String>,
     pub tracks: Vec<ApiTrack>,
     pub size: u32,
 }
