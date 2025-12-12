@@ -30,10 +30,13 @@ pub enum SoundcloudApiError {
     DeserializeError(#[from] serde_json::Error),
 
     #[error("No data for track in response")]
-    NoTrackDataInResponse(),
+    NoTrackDataInResponse,
 
     #[error("No media data attached in track in response")]
-    NoMediaDataInResponse(),
+    NoMediaDataInResponse,
+
+    #[error("Track data is not full")]
+    TrackDataIsNotFull,
 
     #[error("Tx send error")]
     TxSendError(#[from] SendError<Result<Bytes, BodyStreamError>>),
@@ -51,11 +54,14 @@ impl IntoResponse for SoundcloudApiError{
             SoundcloudApiError::DeserializeError(_) => {
                 (StatusCode::INTERNAL_SERVER_ERROR, create_json_error_str!("Deserialize soundcloud response error"));
             }
-            SoundcloudApiError::NoTrackDataInResponse() => {
+            SoundcloudApiError::NoTrackDataInResponse => {
                 (StatusCode::NOT_FOUND, create_json_error_str!("No track data in response"));
             }
-            SoundcloudApiError::NoMediaDataInResponse() => {
+            SoundcloudApiError::NoMediaDataInResponse => {
                 (StatusCode::NOT_FOUND, create_json_error_str!("No media data in response"));
+            }
+            SoundcloudApiError::TrackDataIsNotFull => {
+                (StatusCode::NOT_FOUND, create_json_error_str!("TrackData is not full"));
             }
             SoundcloudApiError::TxSendError(_) => {
                 (StatusCode::INTERNAL_SERVER_ERROR, create_json_error_str!("Tx send error"));

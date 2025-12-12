@@ -10,7 +10,7 @@ pub struct ApiTrack {
     pub artists: Vec<ApiArtist>,
     pub alb_id: Option<String>,
     pub alb_title: Option<String>,
-    pub duration: i32,
+    pub duration: i64,
     pub track_url: Option<String>,
     pub track_token: Option<String>,
 }
