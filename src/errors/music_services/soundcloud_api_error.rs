@@ -5,6 +5,7 @@ use thiserror::Error;
 use url::ParseError;
 use tokio::sync::broadcast::error::{SendError};
 use crate::create_json_error_str;
+use crate::errors::create_json_error_str::create_json_error_str;
 
 #[derive(Error, Debug, Clone)]
 pub enum BodyStreamError {
@@ -45,27 +46,40 @@ pub enum SoundcloudApiError {
 impl IntoResponse for SoundcloudApiError{
     fn into_response(self) -> Response {
         let res = match self {
-            SoundcloudApiError::InvalidRequestToSoundcloud(_) => {
-                (StatusCode::BAD_REQUEST, create_json_error_str!("InvalidRequestToSoundcloud"));
+            SoundcloudApiError::InvalidRequestToSoundcloud(err) => {
+                let status = err.status().unwrap_or(StatusCode::INTERNAL_SERVER_ERROR);
+                (status, create_json_error_str!("Soundcloud server response with error"))
             }
-            SoundcloudApiError::UrlParseError(_) => {
-                (StatusCode::BAD_REQUEST, create_json_error_str!("Fail to parse URL with provided params"));
-            }
-            SoundcloudApiError::DeserializeError(_) => {
-                (StatusCode::INTERNAL_SERVER_ERROR, create_json_error_str!("Deserialize soundcloud response error"));
-            }
-            SoundcloudApiError::NoTrackDataInResponse => {
-                (StatusCode::NOT_FOUND, create_json_error_str!("No track data in response"));
-            }
-            SoundcloudApiError::NoMediaDataInResponse => {
-                (StatusCode::NOT_FOUND, create_json_error_str!("No media data in response"));
-            }
-            SoundcloudApiError::TrackDataIsNotFull => {
-                (StatusCode::NOT_FOUND, create_json_error_str!("TrackData is not full"));
-            }
-            SoundcloudApiError::TxSendError(_) => {
-                (StatusCode::INTERNAL_SERVER_ERROR, create_json_error_str!("Tx send error"));
-            }
+            SoundcloudApiError::UrlParseError(_) =>
+                (
+                    StatusCode::BAD_REQUEST,
+                    create_json_error_str!("Fail to parse URL with provided params")
+                ),
+            SoundcloudApiError::DeserializeError(_) =>
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    create_json_error_str!("Deserialize soundcloud response error")
+                ),
+            SoundcloudApiError::NoTrackDataInResponse =>
+                (
+                    StatusCode::NOT_FOUND,
+                    create_json_error_str!("No track data in response")
+                ),
+            SoundcloudApiError::NoMediaDataInResponse =>
+                (
+                    StatusCode::NOT_FOUND,
+                    create_json_error_str!("No media data in response")
+                ),
+            SoundcloudApiError::TrackDataIsNotFull =>
+                (
+                    StatusCode::NOT_FOUND,
+                    create_json_error_str!("TrackData is not full")
+                ),
+            SoundcloudApiError::TxSendError(_) =>
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    create_json_error_str!("Tx send error")
+                )
         };
 
         res.into_response()
