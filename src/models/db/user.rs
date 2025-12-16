@@ -9,7 +9,7 @@ pub enum IsUserExistsRes {
     EmailAndUsernameExists,
 }
 
-#[derive(Debug, sqlx::FromRow)]
+#[derive(Debug, Clone, sqlx::FromRow)]
 pub struct UserTable {
     pub id: i64,
     pub username: String,
@@ -17,44 +17,44 @@ pub struct UserTable {
     pub password_hash: String,
 }
 
-#[derive(Debug, sqlx::FromRow)]
+#[derive(Debug, Clone, sqlx::FromRow)]
 pub struct SessionTable {
     pub id: Uuid,
     pub user_id: i64,
     pub expires_at: DateTime<Utc>,
 }
 
-#[derive(Debug, sqlx::FromRow)]
+#[derive(Debug, Clone, sqlx::FromRow)]
 pub struct UserPlaylist {
     pub id: i64,
     pub title: String,
     pub owner_id: i64,
 }
 
-#[derive(Debug, sqlx::FromRow)]
+#[derive(Debug, Clone, sqlx::FromRow)]
 pub struct TrackInUserPlaylist {
     pub id: i64,
     pub title: String,
     pub track_id: i64,
-    pub platform_id: TrackPlatfrom,
+    pub platform_id: TrackPlatform,
     pub position: i32,
 }
 
-#[derive(Debug, sqlx::Type)]
+#[derive(Debug, Clone, sqlx::Type, Deserialize, Serialize)]
 #[sqlx(type_name = "track_platform")]
 #[sqlx(rename_all = "lowercase")]
-pub enum TrackPlatfrom {
+pub enum TrackPlatform {
     Deezer,
-    Soundсloud,
+    Soundcloud,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct PlaylistInUser {
     pub id: i64,
     pub title: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct UserWithPlaylists {
     pub id: i64,
     pub email: String,
