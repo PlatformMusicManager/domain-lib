@@ -1,12 +1,12 @@
 // Types
 
-use serde::{Deserialize, Serialize};
-use url::Position;
 use crate::models::music_api::artist::ApiArtist;
 use crate::models::music_api::playlist::ApiPlaylist;
 use crate::models::music_api::services::ApiServices;
 use crate::models::music_api::services::ApiServices::Soundcloud;
 use crate::models::music_api::track::ApiTrack;
+use serde::{Deserialize, Serialize};
+use url::Position;
 
 #[derive(Debug, sqlx::Type)]
 #[sqlx(type_name = "author_input_soundcloud")]
@@ -23,9 +23,8 @@ pub struct TrackInputSoundcloud {
     pub title: String,
     pub duration: i64,
     pub img: Option<String>,
-    pub author_id: i64
+    pub author_id: i64,
 }
-
 
 #[derive(Debug, sqlx::Type)]
 #[sqlx(type_name = "playlist_input_soundcloud")]
@@ -33,14 +32,14 @@ pub struct PlaylistInputSoundcloud {
     pub id: i64,
     pub title: String,
     pub img: Option<String>,
-    pub author_id: i64
+    pub author_id: i64,
 }
 
 pub struct CreateReplacePlaylistInput {
     pub playlist: PlaylistInputSoundcloud,
     pub playlist_author: AuthorInputSoundcloud,
     pub tracks: Vec<TrackInputSoundcloud>,
-    pub track_authors: Vec<AuthorInputSoundcloud>
+    pub track_authors: Vec<AuthorInputSoundcloud>,
 }
 
 // Table
@@ -81,7 +80,7 @@ pub struct TrackFromPlaylistResponse {
     pub img: Option<String>,
     pub duration: i64,
     pub position: u32,
-    pub author: AuthorTableSoundcloud
+    pub author: AuthorTableSoundcloud,
 }
 
 impl Into<ApiTrack> for TrackFromPlaylistResponse {
@@ -91,6 +90,7 @@ impl Into<ApiTrack> for TrackFromPlaylistResponse {
             service: Soundcloud,
             title: self.title.to_string(),
             artists: vec![self.author.into()],
+            picture: self.img,
             alb_id: None,
             alb_title: None,
             duration: self.duration,
@@ -99,7 +99,6 @@ impl Into<ApiTrack> for TrackFromPlaylistResponse {
         }
     }
 }
-
 
 #[derive(Deserialize)]
 pub struct FullPlaylistResponse {
@@ -142,6 +141,7 @@ impl Into<ApiTrack> for FullTrackResponse {
             service: ApiServices::Deezer,
             title: self.title,
             artists: vec![self.author.into()],
+            picture: self.img,
             duration: self.duration,
             alb_id: None,
             alb_title: None,
@@ -153,5 +153,5 @@ impl Into<ApiTrack> for FullTrackResponse {
 
 pub struct FullTracksResponse {
     pub found: Vec<FullTrackResponse>,
-    pub not_found: Vec<i64>
+    pub not_found: Vec<i64>,
 }

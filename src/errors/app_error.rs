@@ -3,7 +3,6 @@ use password_hash::errors::Error as PasswordHashError;
 use redis::RedisError;
 use thiserror::Error;
 
-use crate::{create_json_error_str, define_app_error};
 use crate::errors::auth::cookie_error::CookieErrors;
 use crate::errors::auth::jwt_error::JwtError;
 use crate::errors::auth::problematic_fields_error::ProblematicFieldsError;
@@ -16,6 +15,7 @@ use crate::errors::db::user::UserCreationError;
 use crate::errors::email::MailerError;
 use crate::errors::music_services::deezer_api_error::DeezerApiError;
 use crate::errors::music_services::soundcloud_api_error::SoundcloudApiError;
+use crate::{create_json_error_str, define_app_error};
 
 define_app_error! {
     // --- Part 1: Enum Definition ---
@@ -58,7 +58,7 @@ define_app_error! {
         // Cookie
         #[error(transparent)]
         CookieError(#[from] CookieErrors),
-        
+
         #[error(transparent)]
         DeezerApiError(#[from] DeezerApiError),
 
