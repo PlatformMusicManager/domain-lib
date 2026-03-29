@@ -83,11 +83,11 @@ pub struct TrackFromPlaylistResponse {
     pub author: AuthorTableSoundcloud,
 }
 
-impl Into<ApiTrack> for TrackFromPlaylistResponse {
-    fn into(self) -> ApiTrack {
+impl TrackFromPlaylistResponse {
+    pub fn into_with_platform(self, platform: ApiServices) -> ApiTrack {
         ApiTrack {
             id: self.id.to_string(),
-            service: Soundcloud,
+            service: platform,
             title: self.title.to_string(),
             artists: vec![self.author.into()],
             picture: self.img,
@@ -96,6 +96,7 @@ impl Into<ApiTrack> for TrackFromPlaylistResponse {
             duration: self.duration,
             track_url: None,
             track_token: None,
+            platform,
         }
     }
 }
@@ -110,8 +111,9 @@ pub struct FullPlaylistResponse {
     pub tracks: Vec<TrackFromPlaylistResponse>,
 }
 
-impl Into<ApiPlaylist> for FullPlaylistResponse {
-    fn into(self) -> ApiPlaylist {
+impl FullPlaylistResponse {
+    #[inline(always)]
+    fn into(self, platform: ApiServices) -> ApiPlaylist {
         ApiPlaylist {
             id: self.id.to_string(),
             title: self.title,
@@ -120,8 +122,31 @@ impl Into<ApiPlaylist> for FullPlaylistResponse {
             parent_picture: self.author.img,
             picture: self.img,
             size: self.tracks.len() as u32,
-            tracks: self.tracks.into_iter().map(|t| t.into()).collect(),
+            tracks: self
+                .tracks
+                .into_iter()
+                .map(|t| t.into_with_platform(platform))
+                .collect(),
+            platform,
         }
+    }
+}
+
+#[derive(Deserialize)]
+pub struct SoundcloudFullPlaylistResponse(pub FullPlaylistResponse);
+
+impl Into<ApiPlaylist> for SoundcloudFullPlaylistResponse {
+    fn into(self) -> ApiPlaylist {
+        self.0.into(ApiServices::Soundcloud)
+    }
+}
+
+#[derive(Deserialize)]
+pub struct DeezerFullPlaylistResponse(pub FullPlaylistResponse);
+
+impl Into<ApiPlaylist> for DeezerFullPlaylistResponse {
+    fn into(self) -> ApiPlaylist {
+        self.0.into(ApiServices::Deezer)
     }
 }
 
@@ -134,14 +159,36 @@ pub struct FullTrackResponse {
     pub duration: i64,
 }
 
-impl Into<ApiTrack> for FullTrackResponse {
-    fn into(self) -> ApiTrack {
+// Trait removed
+
+#[derive(Deserialize)]
+pub struct SoundcloudFullTrackResponse(pub FullTrackResponse);
+
+impl From<SoundcloudFullTrackResponse> for ApiTrack {
+    fn from(val: SoundcloudFullTrackResponse) -> Self {
+        val.0.into(ApiServices::Soundcloud)
+    }
+}
+
+#[derive(Deserialize)]
+pub struct DeezerFullTrackResponse(pub FullTrackResponse);
+
+impl From<DeezerFullTrackResponse> for ApiTrack {
+    fn from(val: DeezerFullTrackResponse) -> Self {
+        val.0.into(ApiServices::Deezer)
+    }
+}
+
+impl FullTrackResponse {
+    #[inline(always)]
+    fn into(self, platform: ApiServices) -> ApiTrack {
         ApiTrack {
             id: self.id.to_string(),
-            service: ApiServices::Deezer,
+            service: platform,
             title: self.title,
             artists: vec![self.author.into()],
             picture: self.img,
+            platform,
             duration: self.duration,
             alb_id: None,
             alb_title: None,
@@ -151,7 +198,7 @@ impl Into<ApiTrack> for FullTrackResponse {
     }
 }
 
-pub struct FullTracksResponse {
-    pub found: Vec<FullTrackResponse>,
+pub struct FullTracksResponse<T: Into<ApiTrack>> {
+    pub found: Vec<T>,
     pub not_found: Vec<i64>,
 }

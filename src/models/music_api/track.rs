@@ -11,6 +11,7 @@ pub struct ApiTrack {
     pub alb_id: Option<String>,
     pub alb_title: Option<String>,
     pub duration: i64,
+    pub platform: ApiServices,
     pub picture: Option<String>,
     pub track_url: Option<String>,
     pub track_token: Option<String>,
