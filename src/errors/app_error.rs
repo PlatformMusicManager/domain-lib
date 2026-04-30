@@ -1,5 +1,5 @@
 use axum::http::StatusCode;
-use password_hash::errors::Error as PasswordHashError;
+use password_hash::Error as PasswordHashError;
 use redis::RedisError;
 use thiserror::Error;
 
