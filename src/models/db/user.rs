@@ -1,6 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
+use crate::models::db::soundcloud::{DeezerFullTrackResponse, SoundcloudFullTrackResponse};
 
 pub enum IsUserExistsRes {
     NotExists,
@@ -60,4 +61,23 @@ pub struct UserWithPlaylists {
     pub email: String,
     pub username: String,
     pub playlists: Vec<PlaylistInUser>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct TrackInPlaylistResponse {
+    pub track_in_playlist_id: i64,
+    pub position: i32,
+    pub platform: TrackPlatform,
+    pub track_id: i64,
+}
+
+#[derive(Deserialize)]
+pub struct UserPlaylistWithTracks {
+    pub id: i64,
+    pub title: String,
+    pub owner_id: i64,
+    pub owner_name: String,
+    pub tracks: Vec<TrackInPlaylistResponse>,
+    pub found_tracks_soundcloud: Vec<SoundcloudFullTrackResponse>,
+    pub found_tracks_deezer: Vec<DeezerFullTrackResponse>,
 }
