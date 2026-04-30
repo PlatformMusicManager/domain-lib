@@ -4,17 +4,17 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-chrono = { version = "0.4", features = ["serde"] }
-redis = "1.1.0"
+chrono = { version = "0.4.44", features = ["serde"] }
+redis = "1.2.0"
 serde = "1.0.228"
 sqlx = "0.8.6"
-uuid = "1.18.1"
-axum = "0.8.6"
-thiserror = "2.0.17"
-lettre = "0.11.19"
-jsonwebtoken = { version = "10.2.0", features = ["aws_lc_rs"] }
-password-hash = "0.6.0"
-reqwest = "0.13.2"
-url = "2.5.7" # bcks argon2 v."0.5.3" rely on this lib
-serde_json = "1.0.145"
-tokio = "1.48.0"
+uuid = "1.23.1"
+axum = "0.8.9"
+thiserror = "2.0.18"
+lettre = "0.11.21"
+jsonwebtoken = { version = "10.3.0", features = ["aws_lc_rs"] }
+password-hash = "0.5.0"
+reqwest = "0.13.3"
+url = "2.5.8" # bcks argon2 v."0.5.3" rely on this lib
+serde_json = "1.0.149"
+tokio = "1.52.1"
