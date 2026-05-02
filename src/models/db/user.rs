@@ -71,7 +71,7 @@ pub struct TrackInPlaylistResponse {
     pub track_id: i64,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct UserPlaylistWithTracks {
     pub id: i64,
     pub title: String,
