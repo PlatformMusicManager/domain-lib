@@ -53,7 +53,7 @@ pub struct TrackTableSoundcloud {
     pub author_id: Option<i32>,
 }
 
-#[derive(Debug, sqlx::FromRow, Deserialize)]
+#[derive(Debug, sqlx::FromRow, Deserialize, Serialize)]
 pub struct AuthorTableSoundcloud {
     pub id: i64,
     pub title: String,
@@ -73,7 +73,7 @@ impl Into<ApiArtist> for AuthorTableSoundcloud {
 
 // Return json struct's
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct TrackFromPlaylistResponse {
     pub id: i64,
     pub title: String,
@@ -101,7 +101,7 @@ impl TrackFromPlaylistResponse {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct FullPlaylistResponse {
     pub id: i64,
     pub title: String,
@@ -132,7 +132,7 @@ impl FullPlaylistResponse {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct SoundcloudFullPlaylistResponse(pub FullPlaylistResponse);
 
 impl Into<ApiPlaylist> for SoundcloudFullPlaylistResponse {
@@ -141,7 +141,7 @@ impl Into<ApiPlaylist> for SoundcloudFullPlaylistResponse {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct DeezerFullPlaylistResponse(pub FullPlaylistResponse);
 
 impl Into<ApiPlaylist> for DeezerFullPlaylistResponse {
@@ -150,7 +150,7 @@ impl Into<ApiPlaylist> for DeezerFullPlaylistResponse {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct FullTrackResponse {
     pub id: i64,
     pub title: String,
@@ -161,7 +161,7 @@ pub struct FullTrackResponse {
 
 // Trait removed
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct SoundcloudFullTrackResponse(pub FullTrackResponse);
 
 impl From<SoundcloudFullTrackResponse> for ApiTrack {
@@ -170,7 +170,7 @@ impl From<SoundcloudFullTrackResponse> for ApiTrack {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct DeezerFullTrackResponse(pub FullTrackResponse);
 
 impl From<DeezerFullTrackResponse> for ApiTrack {
