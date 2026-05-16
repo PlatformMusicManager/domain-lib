@@ -30,6 +30,7 @@ pub struct UserPlaylist {
     pub id: i64,
     pub title: String,
     pub owner_id: i64,
+    pub last_track_added_at: Option<DateTime<Utc>>,
 }
 
 #[derive(Debug, Clone, sqlx::FromRow)]
@@ -53,6 +54,7 @@ pub enum TrackPlatform {
 pub struct PlaylistInUser {
     pub id: i64,
     pub title: String,
+    pub last_track_added_at: Option<DateTime<Utc>>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
