@@ -79,6 +79,7 @@ pub struct UserPlaylistWithTracks {
     pub title: String,
     pub owner_id: i64,
     pub owner_name: String,
+    pub last_track_added_at: Option<DateTime<Utc>>,
     pub tracks: Vec<TrackInPlaylistResponse>,
     pub found_tracks_soundcloud: Vec<SoundcloudFullTrackResponse>,
     pub found_tracks_deezer: Vec<DeezerFullTrackResponse>,
