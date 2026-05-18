@@ -51,9 +51,16 @@ pub enum TrackPlatform {
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
+pub enum PlaylistCover {
+    Cover(String),
+    ArrayOfTracksImages(Vec<String>)
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct PlaylistInUser {
     pub id: i64,
     pub title: String,
+    pub image: PlaylistCover,
     pub last_track_added_at: Option<DateTime<Utc>>,
 }
 
