@@ -51,6 +51,7 @@ pub enum TrackPlatform {
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(untagged)]
 pub enum PlaylistCover {
     Cover(String),
     ArrayOfTracksImages(Vec<String>)
